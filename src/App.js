@@ -1,9 +1,51 @@
-import React from "react";
+import React, { useEffect, useReducer } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import { data } from "./data";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "ADD_ELEMENT":
+      break;
+
+    case "REMOVE_ELEMENT":
+      break;
+
+    case "INCREASE_QUANTITY":
+      break;
+
+    case "DECREASE_QUANTITY":
+      break;
+
+    default:
+      throw new Error("NO MATCHING CASE FOR ACTION");
+    // break; -> unreachable
+  }
+};
+
+// INITIAL STATE CONTAIN ONE STATEOBJECT, ONE STATEARRAY, ONE STATEVARIABLE
+
+const initialState = {
+  productDetails: data,
+  productQuantity: (() => {
+    let array = [];
+    for (let counter = 0; counter < data.length; counter++) {
+      array.push(1);
+    }
+    return array;
+  })(),
+  totalProduct: 1 * data.length,
+  totalPrice: (() => {
+    let price = 0;
+    data.forEach((item) => {
+      price += item.price;
+    });
+    return price;
+  })(),
+};
 
 const App = () => {
-  const number = 10;
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <>
@@ -23,7 +65,7 @@ const App = () => {
             >
               <BsFillCartFill />
               <span className="absolute right-2 top-0.5 md:top-2 md:right-3 z-10 text-sky-500 text-lg md:text-xl">
-                {number}
+                {state.totalProduct}
               </span>
             </Link>
           </Router>
@@ -31,9 +73,19 @@ const App = () => {
       </div>
       {/* HEADER-END */}
 
+      {/* TITLE */}
+
       <div className=" text-center font-bold tracking-wider text-4xl sm:text-5xl">
         YOUR BAG
       </div>
+
+      {/* TITLE END */}
+
+      {/* CART CONTENT */}
+
+      <div className="container"></div>
+
+      {/* CART CONTENT END */}
 
       {/* OPTIONS */}
       <div className=" w-fit mx-auto">
@@ -63,12 +115,6 @@ const App = () => {
         </div>
       </div>
       {/* OPTIONS-END */}
-
-      {/* CART CONTENT */}
-
-      <div></div>
-
-      {/* CART CONTENT END */}
     </>
   );
 };
