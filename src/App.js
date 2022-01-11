@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 import { BsFillCartFill } from "react-icons/bs";
+import { BiUpArrow, BiDownArrow } from "react-icons/bi";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { data } from "./data";
 
@@ -46,7 +47,7 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  let temp_click = 1;
   return (
     <>
       {/* HEADER */}
@@ -75,7 +76,7 @@ const App = () => {
 
       {/* TITLE */}
 
-      <div className=" text-center font-bold tracking-wider text-4xl sm:text-5xl">
+      <div className=" text-center font-bold tracking-wider text-4xl sm:text-5xl mt-20 mb-10">
         YOUR BAG
       </div>
 
@@ -83,7 +84,29 @@ const App = () => {
 
       {/* CART CONTENT */}
 
-      <div className="container"></div>
+      <div className=" relative container border-2 border-black w-full grid grid-cols-3">
+        <div className=" inline-block w-fit vert-center">
+          <img
+            src="https://res.cloudinary.com/diqqf3eq2/image/upload/v1583368215/phone-2_ohtt5s.png"
+            alt="Samsung Galaxy S7"
+            className=" w-20 "
+          />
+        </div>
+        <div className=" absolute inline-block h-full vert-center left-24">
+          <div>Samsung Galaxy S7</div>
+          <div>$599.99</div>
+          <button>remove</button>
+        </div>
+        <div className="absolute right-4 top-3 bottom-0">
+          <div className=" w-fit mx-auto">
+            <BiUpArrow className=" shadow-2xl hover:shadow-green-900 hover:text-green-500 duration-150 hover:cursor-pointer hover:scale-125" />
+          </div>
+          <div className="">100</div>
+          <div className=" w-fit mx-auto hover:text-red-500 duration-150 hover:scale-125 hover:cursor-pointer">
+            <BiDownArrow />
+          </div>
+        </div>
+      </div>
 
       {/* CART CONTENT END */}
 
