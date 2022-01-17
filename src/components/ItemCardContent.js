@@ -2,6 +2,12 @@ import React from "react";
 import { BiUpArrow, BiDownArrow } from "react-icons/bi";
 
 const ItemCardContent = ({ item, dispatch }) => {
+
+  const removeClickHandler = () => {
+    dispatch({ type: "REMOVE_ELEMENT", id: item.id });
+    console.log(item.id);
+  };
+
   return (
     <div className=" relative container w-full grid grid-cols-3 mb-10">
       <div>
@@ -12,7 +18,12 @@ const ItemCardContent = ({ item, dispatch }) => {
         {/* state.projectDetails.title */}
         <div className=" tracking-widest font-light mb-2">${item.price}</div>
         {/* state.projectDetails.price */}
-        <button className=" tracking-widest text-sky-700">remove</button>
+        <button
+          className=" tracking-widest text-sky-700"
+          onClick={removeClickHandler}
+        >
+          remove
+        </button>
       </div>
       <div className="absolute right-4 top-3 bottom-0 xl:text-lg">
         <div className=" w-fit mx-auto hover:text-green-500 duration-100 hover:cursor-pointer hover:scale-125">

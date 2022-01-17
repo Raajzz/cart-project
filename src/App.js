@@ -11,6 +11,14 @@ const reducer = (state, action) => {
       return state;
 
     case "REMOVE_ELEMENT":
+      // NOT COMPLETED
+      const reduceTotal = (priceToBeDetected) => {
+        state.totalNumOfProducts--;
+        state.totalPriceOfProducts -= priceToBeDetected;
+      };
+      state.productDetails.filter((productDetailsItem) => {
+        return productDetailsItem.id !== action.id;
+      });
       return state;
 
     case "INCREASE_QUANTITY": {
@@ -89,31 +97,28 @@ const App = () => {
       {/* HEADER-END */}
 
       {/* MODAL BEGIN */}
-      {state.totalNumOfProducts === 50 ? (
-        <Modal modalToBeShown={"above"} />
-      ) : state.totalNumOfProducts === 0 ? (
-        <Modal />
-      ) : (
-        ""
-      )}
 
       {/* MODAL END */}
 
       {/* TITLE */}
-      <div className=" text-center font-bold tracking-wider text-4xl sm:text-5xl mt-20 mb-10">
-        YOUR BAG
+      <div className="relative">
+        {state.totalNumOfProducts >= 50 ? (
+          <Modal modalToBeShown={"above"} />
+        ) : state.totalNumOfProducts === 0 ? (
+          <Modal />
+        ) : (
+          ""
+        )}
+        <div className="text-center font-bold tracking-wider text-4xl sm:text-5xl mt-20 mb-10">
+          YOUR BAG
+        </div>
       </div>
       {/* TITLE END */}
 
       {/* CART CONTENT */}
       {state.productDetails.map((item, index) => {
         return (
-          <ItemCardContent
-            item={item}
-            state={state}
-            dispatch={dispatch}
-            key={item.id}
-          />
+          <ItemCardContent item={item} dispatch={dispatch} key={item.id} />
         );
       })}
       {/* CART CONTENT END */}
@@ -137,7 +142,6 @@ const App = () => {
           inline-block 
           rounded-3xl 
           text-lg sm:text-3xl font-bold text-center 
-          
           text-white bg-red-500 
           w-fit px-8 py-1 mx-5 
           hover:shadow-red-500/30 hover:shadow-xl hover:cursor-pointer duration-200"
