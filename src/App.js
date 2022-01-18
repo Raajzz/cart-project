@@ -4,60 +4,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import ItemCardContent from "./components/ItemCardContent";
 import { preDefItemFromAPI } from "./preDefItemFromAPI";
 import Modal from "./components/Modal";
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_ELEMENT":
-      return state;
-
-    case "REMOVE_ELEMENT":
-      // NOT COMPLETED
-      state.productDetails = state.productDetails.filter(
-        (productDetailsItem) => {
-          if (productDetailsItem.id === action.id) {
-            state.totalNumOfProducts -= productDetailsItem.amount;
-            state.totalPriceOfProducts -=
-              productDetailsItem.price * productDetailsItem.amount;
-          }
-          return productDetailsItem.id !== action.id;
-        }
-      );
-      return { ...state };
-
-    case "INCREASE_QUANTITY": {
-      if (state.totalNumOfProducts < 50) {
-        for (
-          let counter = 0;
-          counter < state.productDetails.length;
-          counter++
-        ) {
-          if (state.productDetails[counter].id === action.id) {
-            state.productDetails[counter].amount++;
-            state.totalNumOfProducts++;
-            state.totalPriceOfProducts += state.productDetails[counter].price;
-          }
-        }
-      }
-      return { ...state };
-    }
-
-    case "DECREASE_QUANTITY": {
-      for (let counter = 0; counter < state.productDetails.length; counter++) {
-        if (state.productDetails[counter].id === action.id) {
-          if (state.productDetails[counter].amount > 0) {
-            state.productDetails[counter].amount--;
-            state.totalNumOfProducts--;
-            state.totalPriceOfProducts -= state.productDetails[counter].price;
-          }
-        }
-      }
-      return { ...state };
-    }
-
-    default:
-      throw new Error("NO MATCHING CASE FOR ACTION");
-  }
-};
+import { reducer } from "./reducer";
 
 // INITIAL STATE CONTAIN ONE STATEOBJECT, ONE STATEARRAY, ONE STATEVARIABLE
 
@@ -136,7 +83,9 @@ const App = () => {
         <div className="rounded-full border-[0.25px] border-gray-500"></div>
         <div className="absolute left-0 mx-5 my-2 ">Total</div>
         <div className="absolute right-0 my-2 font-semibold">
-          $ {Math.round(state.totalPriceOfProducts)}
+          ${" "}
+          {Math.round((state.totalPriceOfProducts + Number.EPSILON) * 100) /
+            100}
         </div>
       </div>
       {/* TOTAL-END */}
@@ -146,31 +95,28 @@ const App = () => {
       <div className=" w-fit mx-auto mt-28 mb-10">
         {/* BUY-BUTTON-START */}
         <div
-          className=" 
+          className={`
           inline-block 
           rounded-3xl 
-          text-lg sm:text-3xl font-bold text-center 
-          text-white bg-red-500 
+          text-lg sm:text-xl font-bold text-center 
+          text-white  
           w-fit px-8 py-1 mx-5 
-          hover:shadow-red-500/30 hover:shadow-xl hover:cursor-pointer duration-200"
+          ${
+            state.productDetails.length === 0
+              ? "hover:shadow-green-500/30 bg-green-500"
+              : "hover:shadow-red-500/30 bg-red-500"
+          } hover:shadow-xl hover:cursor-pointer duration-200`}
+          onClick={() => {
+            if (state.productDetails.length === 0) {
+              window.location.reload();
+            } else {
+              dispatch({ type: "CLEAR_ELEMENTS" });
+            }
+          }}
         >
-          BUY!
+          {state.productDetails.length === 0 ? "REFRESH!!" : "CLEAR PRODUCTS?!"}
         </div>
         {/* BUY-BUTTON-END */}
-
-        {/* ADD-BUTTON-START */}
-        <div
-          className=" 
-          inline-block 
-          rounded-3xl text-lg sm:text-3xl font-bold text-center  
-          text-white 
-          bg-sky-500 
-          w-fit px-8 py-1 mx-5 
-          hover:shadow-sky-500/30 hover:shadow-xl hover:cursor-pointer duration-200"
-        >
-          ADD!
-        </div>
-        {/* ADD-BUTTON-END */}
       </div>
 
       {/* OPTIONS-END */}
