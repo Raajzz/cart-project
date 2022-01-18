@@ -12,19 +12,26 @@ const reducer = (state, action) => {
 
     case "REMOVE_ELEMENT":
       // NOT COMPLETED
-      const reduceTotal = (priceToBeDetected) => {
-        state.totalNumOfProducts--;
-        state.totalPriceOfProducts -= priceToBeDetected;
-      };
-      state.productDetails.filter((productDetailsItem) => {
-        return productDetailsItem.id !== action.id;
-      });
-      return state;
+      state.productDetails = state.productDetails.filter(
+        (productDetailsItem) => {
+          if (productDetailsItem.id === action.id) {
+            state.totalNumOfProducts -= productDetailsItem.amount;
+            state.totalPriceOfProducts -=
+              productDetailsItem.price * productDetailsItem.amount;
+          }
+          return productDetailsItem.id !== action.id;
+        }
+      );
+      return { ...state };
 
     case "INCREASE_QUANTITY": {
-      for (let counter = 0; counter < state.productDetails.length; counter++) {
-        if (state.productDetails[counter].id === action.id) {
-          if (state.productDetails[counter].amount < 50) {
+      if (state.totalNumOfProducts < 50) {
+        for (
+          let counter = 0;
+          counter < state.productDetails.length;
+          counter++
+        ) {
+          if (state.productDetails[counter].id === action.id) {
             state.productDetails[counter].amount++;
             state.totalNumOfProducts++;
             state.totalPriceOfProducts += state.productDetails[counter].price;
@@ -68,6 +75,7 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
   return (
     <>
       {/* HEADER */}
