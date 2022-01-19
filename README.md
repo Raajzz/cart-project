@@ -1,3 +1,14 @@
+# CART PROJECT
+
+A simple react-tailwind project to mimic cart functionality present in ecommerce applications. The main goal of this project is to understand the amazing useReducer hook and multiple changing state variables.
+
+<br>
+
+The demo site can be found [here](https://cart-project-raajzz.netlify.app/).
+
+<hr>
+<br><br>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
