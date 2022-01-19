@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import ItemCardContent from "./components/ItemCardContent";
@@ -114,7 +114,7 @@ const App = () => {
             }
           }}
         >
-          {state.productDetails.length === 0 ? "REFRESH!!" : "CLEAR PRODUCTS?!"}
+          {state.productDetails.length === 0 ? "REFRESH!!" : "CLEAR ITEMS?!"}
         </div>
         {/* BUY-BUTTON-END */}
       </div>
